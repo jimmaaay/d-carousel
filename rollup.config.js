@@ -1,14 +1,21 @@
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
+import commonjs from 'rollup-plugin-commonjs';
 import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-js';
 
 export default {
   entry: 'src/js/main.js',
+	moduleName: 'jCarousel',
   format: 'umd',
 	banner: '/** @preserve j-carousel https://github.com/jimmaaay/j-carousel */',
   plugins: [
-    resolve(),
+    resolve({
+			main: true,
+		}),
+		commonjs({
+			include: 'node_modules/**',
+		}),
     babel({
       exclude: 'node_modules/**' // only transpile our source code
     }),
@@ -24,6 +31,5 @@ export default {
 		}, minify),
   ],
   dest: 'dist/js/main.min.js',
-	moduleName: 'onePageBlog',
 	sourceMap: true,
 };

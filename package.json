@@ -4,10 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "browsersync": "browser-sync start --s --index 'index.html' --files 'index.html, dist/**/*.js', 'dist/**/*.css' --no-notify",
     "build": "npm run clean && rollup -c && npm run build:css",
     "build:css": "npm run css:scss & npm run css:autoprefixer && npm run css:minify",
-    "watch": "npm run clean && rollup -c -w && watch:css",
-    "watch:css": "onchange 'src/scss/*.scss' -- npm run build:css",
+    "watch": "npm run clean && (npm run watch:css & rollup -c -w & npm run browsersync)",
+    "watch:css": "npm run build:css && onchange 'src/scss/*.scss' -- npm run build:css",
     "clean": "rimraf dist",
     "css:scss": "node-sass --output-style nested --indent-type space --indent-width 2 -o dist/css src/scss",
     "css:minify": "uglifycss --output dist/css/main.css dist/css/main.css",
@@ -17,16 +18,21 @@
     "autoprefixer": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-latest": "^6.24.1",
+    "browser-sync": "^2.18.12",
     "node-sass": "^4.5.3",
     "onchange": "^3.2.1",
     "postcss-cli": "^4.1.0",
     "rimraf": "^2.6.1",
     "rollup": "^0.43.0",
     "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",
     "uglify-js": "^3.0.16",
     "uglifycss": "^0.0.27"
+  },
+  "dependencies": {
+    "bezier-easing": "^2.0.3"
   }
 }

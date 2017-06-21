@@ -1,6 +1,82 @@
-body {
-  background: red;
-  color: pink;
-  color: yellow;
-  font-size: 1rem;
+.j-carousel,
+.j-carousel * {
+  box-sizing: border-box;
+}
+
+.j-carousel {
+  position: relative;
+  overflow-y: hidden;
+  // margin-left: -1rem;
+  // margin-right: -1rem;
+
+
+
+  &__outer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: -1.5rem; // helps hide scrollbar
+
+    &::-webkit-scrollbar { // hides scrollbar
+      display:none;
+    }
+  }
+
+  &__inner {
+    padding: 1rem 0;
+    display: inline-block;
+  }
+
+  &__ul {
+    display: flex;
+    margin: 0 0 1.5rem;
+    padding: 0;
+
+  }
+
+  &__item {
+    display: block;
+    padding: 0 0.5rem;
+  }
+
+  &__next,
+  &__prev {
+    position: absolute;
+    top: 50%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: block;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    z-index: 2;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+  }
+
+  &__next {
+    right: 0.5rem;
+    transform: translateY(-50%);
+  }
+
+  &__prev {
+    left: 0.5rem;
+    transform: translateY(-50%) rotate(-180deg);
+  }
+
+  // img { /* optional */
+    // transform: translateZ(0); // stops images from not showing unless browser repaints
+  // }
+
+
 }
