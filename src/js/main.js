@@ -58,17 +58,17 @@ export default function jCarousel(el, optionsArg) {
 
     // button stuff
     if (scrollLeft !== 0) {
-      $prev.style.opacity = 1;
+      $prev.classList.remove('disabled');
     } else if (scrollLeft === 0) {
-      $prev.style.opacity = 0;
+      $prev.classList.add('disabled');
     }
     
     // minus 1 as if scrollLeft is a decimal then it may not be possible to fully match the maxScrollLeft. 
     // So instead we will aim to be within 1px of the maxScrollLeft
     if (scrollLeft < maxScrollLeft - 1) {
-      $next.style.opacity = 1;
+      $next.classList.remove('disabled');
     } else if (scrollLeft >= maxScrollLeft - 1) {
-      $next.style.opacity = 0;
+      $next.classList.add('disabled');
     }
     
   };
@@ -163,6 +163,7 @@ export default function jCarousel(el, optionsArg) {
     scrollOuter(x);
   });
 
+  // run this function on init to work out the button states
   outerScroll();
 
 }
