@@ -4,7 +4,7 @@ import supportsPassive from './supportsPassive';
 
 const defaultOptions = {
   container: window, // container is used to determine the width of the carousel. As most likely use case is full with use window
-  paddingLeft: false, // paddingLeft is used to offset the start of the carousel much like googles
+  paddingLeft: false, // if set to true then script will check outer element for a padding left value which offsets the carousel items. Much like googles one on desktop
   outerSelector: '.j-carousel__outer',
   innerSelector: '.j-carousel__inner',
   itemsSelector: '.j-carousel__item',
@@ -46,13 +46,13 @@ export default function jCarousel(el, optionsArg) {
   const easing = BezierEasing.apply(null, options.easing);
 
   let containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
+  let paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
   let innerWidth = $inner.offsetWidth;
   let itemWidth = $items[0].offsetWidth;
-  let maxScrollLeft = innerWidth - containerWidth;
+  let maxScrollLeft = innerWidth - containerWidth + paddingLeft;
   let scrollLeft;
   let animating = false;
-  let paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
-  console.log(paddingLeft);
+  
   const outerScroll = () => {
     scrollLeft = $outer.scrollLeft;
 
@@ -63,9 +63,11 @@ export default function jCarousel(el, optionsArg) {
       $prev.style.opacity = 0;
     }
     
-    if (scrollLeft !== maxScrollLeft) {
+    // minus 1 as if scrollLeft is a decimal then it may not be possible to fully match the maxScrollLeft. 
+    // So instead we will aim to be within 1px of the maxScrollLeft
+    if (scrollLeft < maxScrollLeft - 1) {
       $next.style.opacity = 1;
-    } else if (scrollLeft === maxScrollLeft) {
+    } else if (scrollLeft >= maxScrollLeft - 1) {
       $next.style.opacity = 0;
     }
     
@@ -119,11 +121,11 @@ export default function jCarousel(el, optionsArg) {
   };
 
   windowResizeFns.push(() => {
-    innerWidth = $inner.offsetWidth;
-    itemWidth = $items[0].offsetWidth;
-    maxScrollLeft = innerWidth - containerWidth;
     containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
     paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
+    innerWidth = $inner.offsetWidth;
+    itemWidth = $items[0].offsetWidth;
+    maxScrollLeft = innerWidth - containerWidth + paddingLeft;  
     outerScroll();
   });
 
@@ -137,27 +139,27 @@ export default function jCarousel(el, optionsArg) {
 
   $next.addEventListener('click', () => {
     if (animating === true) return;
-    const lastIndexFullyShowing = Math.floor((scrollLeft + containerWidth + options.delta()) / itemWidth);
-    console.log(lastIndexFullyShowing);
+    const start = 0 - paddingLeft;
+    const lastIndexFullyShowing = Math.floor((start + scrollLeft + containerWidth + options.delta()) / itemWidth);
     if (lastIndexFullyShowing === noItems) {
       scrollOuter(maxScrollLeft);
       return;
     }
     const nextItem = lastIndexFullyShowing + 1;
-    const x = Math.min((nextItem * itemWidth) - itemWidth, innerWidth - containerWidth);
-
+    const x = Math.abs(start) + Math.min((nextItem * itemWidth) - itemWidth, innerWidth - containerWidth);
     scrollOuter(x);
   });
 
   $prev.addEventListener('click', () => {
     if (animating === true) return;
-    const firstItemFullyShowing = Math.ceil((scrollLeft - options.delta()) / itemWidth) + 1;
+    const start = 0 - paddingLeft;
+    const firstItemFullyShowing = Math.ceil((start + scrollLeft - options.delta()) / itemWidth) + 1;
     if (firstItemFullyShowing === 1) {
       scrollOuter(0);
       return;
     }
     const prevItem = firstItemFullyShowing - 1;
-    const x = Math.max((prevItem * itemWidth) - containerWidth, 0);
+    const x = Math.abs(start) + Math.max((prevItem * itemWidth) - containerWidth, start);
     scrollOuter(x);
   });
 
