@@ -163,6 +163,8 @@ export default function jCarousel(el, optionsArg) {
     scrollOuter(x);
   });
 
+  el.classList.add('init');
+
   // run this function on init to work out the button states
   outerScroll();
 

@@ -45,7 +45,6 @@
     position: absolute;
     top: 50%;
     cursor: pointer;
-    transition: opacity 0.5s ease-in-out;
     display: block;
     background: rgba(255, 255, 255, 0.5);
     border: none;
@@ -77,6 +76,20 @@
   &__prev {
     left: 0.5rem;
     transform: translateY(-50%) rotate(-180deg);
+  }
+
+
+  &.init {
+
+    .j-carousel {
+
+      &__next,
+      &__prev {
+        transition: opacity 0.5s ease-in-out;
+      }
+
+    }
+
   }
 
   // img { /* optional */
