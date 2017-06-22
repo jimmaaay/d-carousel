@@ -2,7 +2,7 @@ export default () => {
 
   let raf = false;
 
-  const debouncer = (callback) => {
+  const throttler = (callback) => {
     if (!raf) {
       raf = true;
       requestAnimationFrame((timestamp) => {
@@ -12,6 +12,6 @@ export default () => {
     }
   };
 
-  return debouncer;
+  return throttler;
 
 };

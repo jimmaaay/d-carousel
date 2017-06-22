@@ -1,28 +1,31 @@
 import BezierEasing from 'bezier-easing';
-import rafDebounce from './rafDebounce';
+import rafThrottle from './rafThrottle';
 import supportsPassive from './supportsPassive';
 
 const defaultOptions = {
+  container: window, // container is used to determine the width of the carousel. As most likely use case is full with use window
+  paddingLeft: false, // paddingLeft is used to offset the start of the carousel much like googles
   outerSelector: '.j-carousel__outer',
   innerSelector: '.j-carousel__inner',
   itemsSelector: '.j-carousel__item',
   nextSelector: '.j-carousel__next',
   prevSelector: '.j-carousel__prev',
-  easing: [0.42,0,0.58,1], // ease-in-out, used for animating the scroll
+  easing: [0.42,0,0.58,1], // ease-in-out, used for animating the scroll. See https://github.com/gre/bezier-easing for options
   delta: () => { // will count an item as fully in view if within ${x}px of delta
     return 8;
   },
+  duration: () => { // possibly needs to be worked out for the amount that is being scrolled. E.g 100px will always scroll in 0.1s
+    return 500;
+  },
 };
 
-const HALF_A_FRAME = 8;
+const HALF_A_FRAME = 8; // Around half of a frame, based on 60fps as most common frame rate
 
-let windowInnerWidth = window.innerWidth;
 
-const debouncer = rafDebounce();
+const throttler = rafThrottle();
 const windowResizeFns = [];
 const windowResize = () => {
-  debouncer(() => {
-    windowInnerWidth = window.innerWidth;
+  throttler(() => {
     windowResizeFns.forEach((fn) => fn());
   });
 }
@@ -42,50 +45,47 @@ export default function jCarousel(el, optionsArg) {
   const noItems = $items.length;
   const easing = BezierEasing.apply(null, options.easing);
 
-  console.log(easing);
-  window.easing = easing;
-
-  let buttonStates = { // false is hidden, true is shown
-    next: false,
-    prev: false,
-  };
-
+  let containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
   let innerWidth = $inner.offsetWidth;
   let itemWidth = $items[0].offsetWidth;
-  let maxScrollLeft = innerWidth - windowInnerWidth;
+  let maxScrollLeft = innerWidth - containerWidth;
   let scrollLeft;
   let animating = false;
-
+  let paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
+  console.log(paddingLeft);
   const outerScroll = () => {
     scrollLeft = $outer.scrollLeft;
 
     // button stuff
-    if (buttonStates.prev === false && scrollLeft !== 0) {
-      buttonStates.prev = true;
+    if (scrollLeft !== 0) {
       $prev.style.opacity = 1;
-    } else if (buttonStates.prev === true && scrollLeft === 0) {
-      buttonStates.prev = false;
+    } else if (scrollLeft === 0) {
       $prev.style.opacity = 0;
     }
     
-    if (buttonStates.next === false && scrollLeft !== maxScrollLeft) {
-      buttonStates.next = true;
+    if (scrollLeft !== maxScrollLeft) {
       $next.style.opacity = 1;
-    } else if (buttonStates.next === true && scrollLeft === maxScrollLeft) {
-      buttonStates.next = false;
+    } else if (scrollLeft === maxScrollLeft) {
       $next.style.opacity = 0;
     }
     
   };
 
   const outerScrollDebounced = () => {
-    debouncer(outerScroll);
+    throttler(outerScroll);
   };
 
   const scrollOuter = (x) => {
+
     animating = true;
     const diff = scrollLeft - x;
-    const duration = 500; // needs to be worked out for the amount that is being scrolled. E.g 100px will always scroll in 0.1s
+
+    const duration = options.duration({
+      itemWidth,
+      containerWidth,
+      diff: Math.abs(diff),
+    });
+    
     const startingScrollLeft = scrollLeft;
     let start = false;
     const tick = (timestamp) => {
@@ -100,7 +100,13 @@ export default function jCarousel(el, optionsArg) {
           const msDiff = timestamp - start; // ms difference between current frame and last one
           const percentage = easing(msDiff / duration); // the percentage of x that should to be scrolled to
           const xValue = diff * percentage; // x value that scrollLeft should be
-          $outer.scrollLeft = startingScrollLeft + Math.abs(xValue);
+
+          if (diff < 0) { // going to the right
+            $outer.scrollLeft = startingScrollLeft + Math.abs(xValue);
+          } else { // going to the left
+            $outer.scrollLeft = startingScrollLeft - xValue;
+          }
+          
         }
         
       }
@@ -115,7 +121,9 @@ export default function jCarousel(el, optionsArg) {
   windowResizeFns.push(() => {
     innerWidth = $inner.offsetWidth;
     itemWidth = $items[0].offsetWidth;
-    maxScrollLeft = innerWidth - windowInnerWidth;
+    maxScrollLeft = innerWidth - containerWidth;
+    containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
+    paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
     outerScroll();
   });
 
@@ -129,89 +137,30 @@ export default function jCarousel(el, optionsArg) {
 
   $next.addEventListener('click', () => {
     if (animating === true) return;
-    const lastIndexFullyShowing = Math.floor((scrollLeft + windowInnerWidth + options.delta()) / itemWidth);
-    if (lastIndexFullyShowing === noItems) return;
+    const lastIndexFullyShowing = Math.floor((scrollLeft + containerWidth + options.delta()) / itemWidth);
+    console.log(lastIndexFullyShowing);
+    if (lastIndexFullyShowing === noItems) {
+      scrollOuter(maxScrollLeft);
+      return;
+    }
     const nextItem = lastIndexFullyShowing + 1;
-    let x = (nextItem * itemWidth) - itemWidth;
-    if (x + windowInnerWidth > innerWidth) x = innerWidth - windowInnerWidth;
+    const x = Math.min((nextItem * itemWidth) - itemWidth, innerWidth - containerWidth);
+
     scrollOuter(x);
   });
 
-  // outerScroll();
-
-
-  
-
+  $prev.addEventListener('click', () => {
+    if (animating === true) return;
+    const firstItemFullyShowing = Math.ceil((scrollLeft - options.delta()) / itemWidth) + 1;
+    if (firstItemFullyShowing === 1) {
+      scrollOuter(0);
+      return;
+    }
+    const prevItem = firstItemFullyShowing - 1;
+    const x = Math.max((prevItem * itemWidth) - containerWidth, 0);
+    scrollOuter(x);
+  });
 
   outerScroll();
 
 }
-
-
-
-
-
-
-// const debouncer = rafDebounce();
-
-// const jCarousel = Array.from(document.querySelectorAll('.j-carousel'));
-// const itemWidthFns = [];
-// let windowWidth = window.innerWidth;
-
-// const windowResize = () => {
-//     debouncer(() => {
-//       itemWidthFns.forEach((fn) => fn());
-//       windowWidth = window.innerWidth;
-//     });
-// };
-
-// const setScrollLeft = ({
-//   x,
-//   outer,
-//   inner,
-// }) => {
-
- 
-
-// };
-
-
-// jCarousel.forEach((el) => {
-//   const outer = el.querySelector('.j-carousel__outer');
-//   const inner = el.querySelector('.j-carousel__inner');
-//   const items = Array.from(el.querySelectorAll('.j-carousel__item'));
-//   const next = el.querySelector('.j-carousel__next');
-//   const prev = el.querySelector('.j-carousel__prev');
-//   const noItems = items.length;
-//   let itemWidth = items[0].offsetWidth;
-//   let innerWidth = inner.offsetWidth;
-
-//   itemWidthFns.push(() => {
-//     itemWidth = items[0].offsetWidth;
-//     innerWidth = inner.offsetWidth;
-//   });
-
-//   prev.addEventListener('click', () => {
-
-//   });
-
-//   next.style.opacity = 1;
-
-//   next.addEventListener('click', () => {
-//     const noFullyShowing = Math.floor((outer.scrollLeft + windowWidth) / itemWidth);
-//     if (noFullyShowing === noItems) return;
-//     const nextItem = noFullyShowing + 1;
-//     let x = (nextItem * itemWidth) - itemWidth;
-//     if (x + windowWidth > innerWidth) x = innerWidth - windowWidth;
-//     setScrollLeft({
-//       x,
-//       outer,
-//       inner,
-//     });
-
-//   });
-
-// });
-
-
-// window.addEventListener('resize', windowResize, false);

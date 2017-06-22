@@ -9,6 +9,7 @@
       .j-carousel {
         background: #efefef;
         counter-reset: jimmy;
+        margin-bottom: 1.5rem;
       }
 
       .j-carousel__item {
@@ -50,10 +51,24 @@
         background: purple;
       }
 
+      
+
+      .j-carousel--example-2 .j-carousel__outer {
+        padding-left: calc((100% - 30rem - 2rem) / 2);
+      }
+
+
+      .wrapper {
+        max-width: 30rem;
+        width: 100%;
+        padding: 0 1rem;
+        margin: 0 auto;
+      }
+
     </style>
   </head>
   <body>
-    <div class="j-carousel">
+    <div class="j-carousel j-carousel--example-1">
       <div class="j-carousel__outer">
         <div class="j-carousel__inner">
           <div>
@@ -109,10 +124,79 @@
       </button>
     </div>
 
+
+
+    <div class="j-carousel j-carousel--example-2">
+      <div class="j-carousel__outer">
+        <div class="j-carousel__inner">
+          <div>
+            <ul class="j-carousel__ul">
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+              <li class="j-carousel__item">
+                <img src="http://via.placeholder.com/150x150"/>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <button class="j-carousel__prev">
+        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+      </button>
+      <button class="j-carousel__next">
+        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+      </button>
+    </div>
+
+    <div class="wrapper">
+      <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus rutrum mi eu convallis. Suspendisse eget mollis magna.</h1>
+    </div>
+
     <script src="dist/js/main.min.js"></script>
     <script>
-      jCarousel(document.querySelector('.j-carousel'), {
+      jCarousel(document.querySelector('.j-carousel--example-1'), {
         // easing: [0.01, 0.93, 0.58, 1],
+        delta: () => {
+          return 16;
+        },
+      });
+
+      jCarousel(document.querySelector('.j-carousel--example-2'), {
+        paddingLeft: true,
         delta: () => {
           return 16;
         },
