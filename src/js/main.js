@@ -3,7 +3,6 @@ import rafThrottle from './rafThrottle';
 import supportsPassive from './supportsPassive';
 
 const defaultOptions = {
-  container: window, // container is used to determine the width of the carousel. As most likely use case is full with use window
   paddingLeft: false, // if set to true then script will check outer element for a padding left value which offsets the carousel items. Much like googles one on desktop
   outerSelector: '.j-carousel__outer',
   innerSelector: '.j-carousel__inner',
@@ -17,6 +16,7 @@ const defaultOptions = {
   duration: () => { // possibly needs to be worked out for the amount that is being scrolled. E.g 100px will always scroll in 0.1s
     return 500;
   },
+  onScroll: () => {}, // fired after calculations on outer scroll event is done
 };
 
 const HALF_A_FRAME = 8; // Around half of a frame, based on 60fps as most common frame rate
@@ -45,13 +45,34 @@ export default function jCarousel(el, optionsArg) {
   const noItems = $items.length;
   const easing = BezierEasing.apply(null, options.easing);
 
-  let containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
+  let containerWidth = el.offsetWidth;
   let paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
   let innerWidth = $inner.offsetWidth;
   let itemWidth = $items[0].offsetWidth;
   let maxScrollLeft = innerWidth - containerWidth + paddingLeft;
   let scrollLeft;
   let animating = false;
+
+  const getFirstItemShowing = () => { // based off an index of 1
+    const start = 0 - paddingLeft;
+    return Math.ceil((start + scrollLeft - options.delta()) / itemWidth) + 1;
+  };
+
+  const getLastItemShowing = () => { // based off an index of 1
+    const start = 0 - paddingLeft;
+    return Math.floor((start + scrollLeft + containerWidth + options.delta()) / itemWidth);
+  };
+
+  const getItemsShowing = () => { // returns the indexes of the items showing in an array. E.g only first item showing would return [0]
+    const first = getFirstItemShowing() - 1;
+    const last = getLastItemShowing() - 1;
+    const array = [];
+    for (let i = first; i <= last; i++) {
+      array.push(i);
+    }
+    return array;
+  };
+
   
   const outerScroll = () => {
     scrollLeft = $outer.scrollLeft;
@@ -70,6 +91,8 @@ export default function jCarousel(el, optionsArg) {
     } else if (scrollLeft >= maxScrollLeft - 1) {
       $next.classList.add('disabled');
     }
+
+    options.onScroll(scrollLeft);
     
   };
 
@@ -120,14 +143,17 @@ export default function jCarousel(el, optionsArg) {
 
   };
 
-  windowResizeFns.push(() => {
-    containerWidth = options.container === window ? options.container.innerWidth : options.container.offsetWidth;
+  const windowResizeFunction = () => {
+    containerWidth = el.offsetWidth;
     paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
     innerWidth = $inner.offsetWidth;
     itemWidth = $items[0].offsetWidth;
     maxScrollLeft = innerWidth - containerWidth + paddingLeft;  
     outerScroll();
-  });
+  };
+
+
+  windowResizeFns.push(windowResizeFunction);
 
   if (init === false) {
     init = true;
@@ -140,7 +166,7 @@ export default function jCarousel(el, optionsArg) {
   $next.addEventListener('click', () => {
     if (animating === true) return;
     const start = 0 - paddingLeft;
-    const lastIndexFullyShowing = Math.floor((start + scrollLeft + containerWidth + options.delta()) / itemWidth);
+    const lastIndexFullyShowing = getLastItemShowing();
     if (lastIndexFullyShowing === noItems) {
       scrollOuter(maxScrollLeft);
       return;
@@ -153,7 +179,7 @@ export default function jCarousel(el, optionsArg) {
   $prev.addEventListener('click', () => {
     if (animating === true) return;
     const start = 0 - paddingLeft;
-    const firstItemFullyShowing = Math.ceil((start + scrollLeft - options.delta()) / itemWidth) + 1;
+    const firstItemFullyShowing = getFirstItemShowing();
     if (firstItemFullyShowing === 1) {
       scrollOuter(0);
       return;
@@ -167,5 +193,11 @@ export default function jCarousel(el, optionsArg) {
 
   // run this function on init to work out the button states
   outerScroll();
+
+
+  return {
+    getItemsShowing,
+    forceRefresh: windowResizeFunction, // force the calculations to take place again
+  };
 
 }

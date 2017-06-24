@@ -1,6 +1,7 @@
 <html>
   <head>
     <link href="dist/css/main.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
       *, *::before, *::after {
@@ -25,42 +26,61 @@
 
       .j-carousel__item::before {
         counter-increment: jimmy;
+        font-family: sans-serif;
+        font-size: 1.5rem;
         content: counter(jimmy);
         display: block;
+        line-height: 9.375rem;
         position: absolute;
         top: 0;
         right: 0.5rem;
         bottom: 0;
         left: 0.5rem;
-        opacity: 0.3;
+        opacity: 1;
+        box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
         z-index: 2;
       }
 
+
+      .j-carousel__item::after {
+        content: '';
+        display: block;
+        padding-bottom: 100%;
+      }
+
+
       .j-carousel__item:nth-child(5n + 1)::before{
-        background: red;
+        background: rgba(255, 0, 0, 0.6);
       }
 
       .j-carousel__item:nth-child(5n + 2)::before {
-        background: yellow;
+        background: rgba(255, 255, 0, 0.6);
       }
 
       .j-carousel__item:nth-child(5n + 3)::before {
-        background: green;
+        background: rgba(0, 128, 0, 0.6);
       }
 
       .j-carousel__item:nth-child(5n + 4)::before {
-        background: blue;
+        background: rgba(0, 0, 255, 0.6);
       }
 
-      .j-carousel__item:nth-child(5n + 4)::before {
-        background: purple;
+      .j-carousel__item:nth-child(5n + 5)::before {
+        background: rgba(128, 0, 128, 0.6);
       }
-
-      
 
       .j-carousel--example-2 .j-carousel__outer {
-        padding-left: calc((100% - 30rem) / 2);
+        padding-left: 5rem;
       }
+
+      @media (min-width: 30em) {
+
+        .j-carousel--example-2 .j-carousel__outer {
+          padding-left: calc((100% - 30rem) / 2);
+        }
+
+      }
+
 
 
       .wrapper {
@@ -78,45 +98,22 @@
         <div class="j-carousel__inner">
           <div>
             <ul class="j-carousel__ul">
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
             </ul>
           </div>
         </div>
@@ -136,45 +133,22 @@
         <div class="j-carousel__inner">
           <div>
             <ul class="j-carousel__ul">
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
-              <li class="j-carousel__item">
-                <img src="http://via.placeholder.com/150x150"/>
-              </li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
+              <li class="j-carousel__item"></li>
             </ul>
           </div>
         </div>
@@ -193,14 +167,14 @@
 
     <script src="dist/js/main.min.js"></script>
     <script>
-      jCarousel(document.querySelector('.j-carousel--example-1'), {
+      var carousel1 = jCarousel(document.querySelector('.j-carousel--example-1'), {
         // easing: [0.01, 0.93, 0.58, 1],
         delta: () => {
           return 16;
         },
       });
 
-      jCarousel(document.querySelector('.j-carousel--example-2'), {
+      var carousel2 = jCarousel(document.querySelector('.j-carousel--example-2'), {
         paddingLeft: true,
         delta: () => {
           return 16;
