@@ -19,22 +19,24 @@ WIP
 ```
 2. Add the required HTML for the carousel and replace  `${ITEM}` with whatever you want to populate the carousel with. **Note each `<li>` is a different item and each item MUST have the same width**
 ```html
+<div class="j-carousel">
+  <div class="j-carousel__outer">
     <div class="j-carousel__inner">
       <div>
         <ul class="j-carousel__ul">
-          <li class="j-carousel__item">
-            ${ITEM}`
-          </li>
-          <li class="j-carousel__item">
-            ${ITEM}
-          </li>
-          <li class="j-carousel__item">
-            ${ITEM}
-          </li>
+          <li class="j-carousel__item">${ITEM}</li>
+          <li class="j-carousel__item">${ITEM}</li>
+          <li class="j-carousel__item">${ITEM}</li>
         </ul>
       </div>
     </div>
   </div>
+  <button class="j-carousel__prev">
+    <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+  </button>
+  <button class="j-carousel__next">
+    <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+  </button>
 </div>
 ```
 3. Add the following javascript
