@@ -16,7 +16,6 @@ const defaultOptions = {
   duration: () => { // possibly needs to be worked out for the amount that is being scrolled. E.g 100px will always scroll in 0.1s
     return 500;
   },
-  onScroll: () => {}, // fired after calculations on outer scroll event is done
 };
 
 const HALF_A_FRAME = 8; // Around half of a frame, based on 60fps as most common frame rate
@@ -77,6 +76,12 @@ export default function jCarousel(el, optionsArg) {
   const outerScroll = () => {
     scrollLeft = $outer.scrollLeft;
 
+    const customEvent = new CustomEvent('jCarousel:scroll', {
+      detail: {
+        scrollLeft,
+      }
+    });
+
     // button stuff
     if (scrollLeft !== 0) {
       $prev.classList.remove('disabled');
@@ -92,7 +97,7 @@ export default function jCarousel(el, optionsArg) {
       $next.classList.add('disabled');
     }
 
-    options.onScroll(scrollLeft);
+    el.dispatchEvent(customEvent);
     
   };
 

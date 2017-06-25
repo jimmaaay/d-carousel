@@ -161,6 +161,8 @@
       </button>
     </div>
 
+    <p><pre>jCarousel:scroll</pre> event fired <span id="carousel-2-counter">0</span> times</p>
+
     <div class="wrapper">
       <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus rutrum mi eu convallis. Suspendisse eget mollis magna.</h1>
     </div>
@@ -174,11 +176,19 @@
         },
       });
 
-      var carousel2 = jCarousel(document.querySelector('.j-carousel--example-2'), {
+      var example2 = document.querySelector('.j-carousel--example-2');
+      var counter = document.querySelector('#carousel-2-counter');
+      var count = 0;
+      var carousel2 = jCarousel(example2, {
         paddingLeft: true,
         delta: () => {
           return 16;
         },
+      });
+
+      example2.addEventListener('jCarousel:scroll', function() {
+        count++;
+        counter.textContent = count;
       });
     </script>
   </body>
