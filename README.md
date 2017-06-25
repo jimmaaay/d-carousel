@@ -66,6 +66,7 @@ import jCarousel from 'dist/js/main.min.js';
 All arguments are accessible from the first parameter which is an object
 
 #### `duration` option
+
 | Arg Name | Description |
 | -------- | ----------- |
 | itemWidth | The current width of the items elements |
@@ -75,6 +76,7 @@ All arguments are accessible from the first parameter which is an object
 
 ## Methods
 Methods are accessible from the returned object of the `jCarousel` function.
+
 | Methods Name | Description |
 | ------------ | ----------- |
 | getItemsShowing | Returns the indexes of elements that are showing, in an array |
@@ -82,6 +84,7 @@ Methods are accessible from the returned object of the `jCarousel` function.
 
 ## Events
 Arguments are available from `event.detail` in the callback;
+
 | Event Name | Args | Description |
 | ---------- | ---- | ----------- |
 | `jCarousel:scroll` | `scrollLeft` - The `scrollLeft` value of the outer element | This event is fired after the carousel has been scrolled and any nessecary calculations have taken place. |
