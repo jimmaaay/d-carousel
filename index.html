@@ -296,7 +296,7 @@
   
   dCarousel(document.querySelector('.d-carousel--example-3'), {
     delta: function() {
-      return fontSize; // will count carousel item as showing when within 1rem of viewport
+      return fontSize; // will count carousel item as showing when up to 1rem of the item is out of the viewport
     },
     duration: function(args) {
       var diff = args.diff / (6.25 * fontSize);
