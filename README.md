@@ -1,21 +1,21 @@
 # d-carousel
 
-This is a carousel plugin based off of the `g-carousel` that is shown in google search results. 
+This is a carousel plugin based off of the `g-carousel` that is shown in google search results. I think this gives a better user experience when used on touch devices over more conventional carousels. Try the demo on your mobile/tablet and swipe to see what I mean.
 
 ![g-carousel example](https://github.com/jimmaaay/d-carousel/blob/master/img/g-carousel-example.jpg "g-carousel example")
 
 The carousel will work fine without the javascript if you do not need the buttons
 
-## Demo 
-WIP
+[Demo](https://www.jimmythompson.me/d-carousel/)
+
 
 ## Setup
 
 ### Quick Setup
 1. Add the stylesheet and javascript onto your page
 ```html
-<link rel="stylesheet" type="text/css" href="dist/css/main.css"/>
-<script src="dist/js/main.min.js"></script>
+<link rel="stylesheet" type="text/css" href="dist/css/d-carousel.css"/>
+<script src="dist/js/d-carousel.min.js"></script>
 ```
 2. Add the required HTML for the carousel and replace  `${ITEM}` with whatever you want to populate the carousel with. **Note each `<li>` is a different item and each item MUST have the same width**
 ```html
