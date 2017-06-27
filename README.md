@@ -48,7 +48,7 @@ The carousel will work fine without the javascript if you do not need the button
 ### Build Tools
 The `dCarousel` script can also be used with build tools by doing the following
 ```javascript
-import dCarousel from 'dist/js/main.min.js';
+import dCarousel from 'dist/js/d-carousel.min.js';
 ```
 
 ## Options
