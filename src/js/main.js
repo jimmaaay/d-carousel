@@ -4,11 +4,11 @@ import supportsPassive from './supportsPassive';
 
 const defaultOptions = {
   paddingLeft: false, // if set to true then script will check outer element for a padding left value which offsets the carousel items. Much like googles one on desktop
-  outerSelector: '.j-carousel__outer',
-  innerSelector: '.j-carousel__inner',
-  itemsSelector: '.j-carousel__item',
-  nextSelector: '.j-carousel__next',
-  prevSelector: '.j-carousel__prev',
+  outerSelector: '.d-carousel__outer',
+  innerSelector: '.d-carousel__inner',
+  itemsSelector: '.d-carousel__item',
+  nextSelector: '.d-carousel__next',
+  prevSelector: '.d-carousel__prev',
   easing: [0.42,0,0.58,1], // ease-in-out, used for animating the scroll. See https://github.com/gre/bezier-easing for options
   delta: () => { // will count an item as fully in view if within ${x}px of delta
     return 8;
@@ -33,7 +33,7 @@ let init = false;
 
 
 
-export default function jCarousel(el, optionsArg) {
+export default function dCarousel(el, optionsArg) {
 
   const options = Object.assign({}, defaultOptions, optionsArg);
   const $outer = el.querySelector(options.outerSelector);
@@ -76,7 +76,7 @@ export default function jCarousel(el, optionsArg) {
   const outerScroll = () => {
     scrollLeft = $outer.scrollLeft;
 
-    const customEvent = new CustomEvent('jCarousel:scroll', {
+    const customEvent = new CustomEvent('dCarousel:scroll', {
       detail: {
         scrollLeft,
       }
@@ -96,9 +96,7 @@ export default function jCarousel(el, optionsArg) {
     } else if (scrollLeft >= maxScrollLeft - 1) {
       $next.classList.add('disabled');
     }
-
     el.dispatchEvent(customEvent);
-    
   };
 
   const outerScrollDebounced = () => {
@@ -153,7 +151,7 @@ export default function jCarousel(el, optionsArg) {
     paddingLeft = options.paddingLeft ? parseFloat(window.getComputedStyle($outer).paddingLeft.replace('px', ''), 10) : 0;
     innerWidth = $inner.offsetWidth;
     itemWidth = $items[0].offsetWidth;
-    maxScrollLeft = innerWidth - containerWidth + paddingLeft;  
+    maxScrollLeft = innerWidth - containerWidth + paddingLeft;
     outerScroll();
   };
 
@@ -162,7 +160,7 @@ export default function jCarousel(el, optionsArg) {
 
   if (init === false) {
     init = true;
-    // only add event listener if jCarousel is called at least once
+    // only add event listener if dCarousel is called at least once
     window.addEventListener('resize', windowResize, false);
   }
 

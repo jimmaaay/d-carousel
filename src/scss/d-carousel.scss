@@ -1,9 +1,9 @@
-.j-carousel,
-.j-carousel * {
+.d-carousel,
+.d-carousel * {
   box-sizing: border-box;
 }
 
-.j-carousel {
+.d-carousel {
   position: relative;
   overflow-y: hidden;
   // margin-left: -1rem;
@@ -81,7 +81,7 @@
 
   &.init {
 
-    .j-carousel {
+    .d-carousel {
 
       &__next,
       &__prev {

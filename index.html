@@ -1,6 +1,11 @@
 <html>
   <head>
-    <link href="dist/css/main.css" rel="stylesheet"/>
+    <link href="dist/css/d-carousel.css" rel="stylesheet"/>
+    <link href="demo-files/highlight.css" rel="stylesheet"/>
+    <script src="demo-files/polyfills.js" defer ></script>
+    <script src="demo-files/highlight.js" defer ></script>
+    <script src="dist/js/d-carousel.min.js" defer ></script>
+    <script src="demo-files/init-carousel.js" defer ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
@@ -8,23 +13,37 @@
         box-sizing: border-box;
       }
 
-      body {
-        margin: 0;
+      code {
+        opacity: 0;
       }
 
-      .j-carousel {
+      .hljs {
+        padding: 0.5rem 1rem;
+      }
+
+      body {
+        margin: 0;
+        /* medium font stack */
+        font-family:medium-ui-sans-serif-text-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+      }
+
+      .example {
+        margin-bottom: 5rem;
+      }
+
+      .d-carousel {
         background: #efefef;
         counter-reset: jimmy;
         margin-bottom: 1.5rem;
       }
 
-      .j-carousel__item {
+      .d-carousel__item {
         width: 10.375rem;
         text-align: center;
         position: relative;
       }
 
-      .j-carousel__item::before {
+      .d-carousel__item::before {
         counter-increment: jimmy;
         font-family: sans-serif;
         font-size: 1.5rem;
@@ -42,41 +61,41 @@
       }
 
 
-      .j-carousel__item::after {
+      .d-carousel__item::after {
         content: '';
         display: block;
         padding-bottom: 100%;
       }
 
 
-      .j-carousel__item:nth-child(5n + 1)::before{
+      .d-carousel__item:nth-child(5n + 1)::before{
         background: rgba(255, 0, 0, 0.6);
       }
 
-      .j-carousel__item:nth-child(5n + 2)::before {
+      .d-carousel__item:nth-child(5n + 2)::before {
         background: rgba(255, 255, 0, 0.6);
       }
 
-      .j-carousel__item:nth-child(5n + 3)::before {
+      .d-carousel__item:nth-child(5n + 3)::before {
         background: rgba(0, 128, 0, 0.6);
       }
 
-      .j-carousel__item:nth-child(5n + 4)::before {
+      .d-carousel__item:nth-child(5n + 4)::before {
         background: rgba(0, 0, 255, 0.6);
       }
 
-      .j-carousel__item:nth-child(5n + 5)::before {
+      .d-carousel__item:nth-child(5n + 5)::before {
         background: rgba(128, 0, 128, 0.6);
       }
 
-      .j-carousel--example-2 .j-carousel__outer {
+      .d-carousel--example-2 .d-carousel__outer {
         padding-left: 5rem;
       }
 
-      @media (min-width: 30em) {
-
-        .j-carousel--example-2 .j-carousel__outer {
-          padding-left: calc((100% - 30rem) / 2);
+      @media (min-width: 50em) {
+        /* works if in element 100% width of page replace 50rem with container width */
+        .d-carousel--example-2 .d-carousel__outer {
+          padding-left: calc((100% - 50rem) / 2);
         }
 
       }
@@ -84,7 +103,7 @@
 
 
       .wrapper {
-        max-width: 30rem;
+        max-width: 50rem;
         width: 100%;
         padding: 0 1rem;
         margin: 0 auto;
@@ -93,103 +112,207 @@
     </style>
   </head>
   <body>
-    <div class="j-carousel j-carousel--example-1">
-      <div class="j-carousel__outer">
-        <div class="j-carousel__inner">
-          <div>
-            <ul class="j-carousel__ul">
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-            </ul>
+    <div class="wrapper" style="padding: 2rem 0;">
+      <h1>d-carousel demo</h1>
+    </div>
+    <section class="example">
+      <div class="d-carousel d-carousel--example-1">
+        <div class="d-carousel__outer">
+          <div class="d-carousel__inner">
+            <div>
+              <ul class="d-carousel__ul">
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+              </ul>
+            </div>
           </div>
         </div>
+        <button class="d-carousel__prev disabled">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
+        <button class="d-carousel__next disabled">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
       </div>
-      <button class="j-carousel__prev disabled">
-        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
-      </button>
-      <button class="j-carousel__next disabled">
-        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
-      </button>
-    </div>
+
+      <div class="wrapper">
+        <pre>
+          <code>
+(function() {
+  var carousel1 = dCarousel(document.querySelector('.d-carousel--example-1'), {
+    delta: function() {
+      return 16;
+    },
+  });
+}());
+          </code>
+        </pre>
+      </div>
+    </section>
 
 
-
-    <div class="j-carousel j-carousel--example-2">
-      <div class="j-carousel__outer">
-        <div class="j-carousel__inner">
-          <div>
-            <ul class="j-carousel__ul">
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-              <li class="j-carousel__item"></li>
-            </ul>
+    <section class="example">
+      <div class="d-carousel d-carousel--example-2">
+        <div class="d-carousel__outer">
+          <div class="d-carousel__inner">
+            <div>
+              <ul class="d-carousel__ul">
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+              </ul>
+            </div>
           </div>
         </div>
+        <button class="d-carousel__prev">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
+        <button class="d-carousel__next">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
       </div>
-      <button class="j-carousel__prev">
-        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
-      </button>
-      <button class="j-carousel__next">
-        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
-      </button>
-    </div>
 
-    <p><pre>jCarousel:scroll</pre> event fired <span id="carousel-2-counter">0</span> times</p>
+      
 
-    <div class="wrapper">
-      <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec maximus rutrum mi eu convallis. Suspendisse eget mollis magna.</h1>
-    </div>
+      <div class="wrapper">
+        <p><pre style="display:inline-block">dCarousel:scroll</pre> event fired <span id="carousel-2-counter">0</span> times</p>
+      </div>
+        
+      <div class="wrapper">
+        <pre>
+          <code>
+  
+.d-carousel--example-2 .d-carousel__outer {
+  padding-left: 5rem;
+}
+/*
+  Works if in element 100% width of page. 
+  Replace 50rem with container width & 50em with appropriate breakpoint.
+*/
+@media (min-width: 50em) {
+  .d-carousel--example-2 .d-carousel__outer {
+    padding-left: calc((100% - 50rem) / 2);
+  }
+}
+          </code>
+        </pre>
+        <pre>
+          <code>
+  (function() {
 
-    <script src="dist/js/main.min.js"></script>
-    <script>
-      var carousel1 = jCarousel(document.querySelector('.j-carousel--example-1'), {
-        // easing: [0.01, 0.93, 0.58, 1],
-        delta: () => {
-          return 16;
-        },
-      });
+    var example2 = document.querySelector('.d-carousel--example-2');
+    var counter = document.querySelector('#carousel-2-counter');
+    var count = 0;
+    var carousel2 = dCarousel(example2, {
+      paddingLeft: true,
+      delta: function() {
+        return 16;
+      },
+    });
 
-      var example2 = document.querySelector('.j-carousel--example-2');
-      var counter = document.querySelector('#carousel-2-counter');
-      var count = 0;
-      var carousel2 = jCarousel(example2, {
-        paddingLeft: true,
-        delta: () => {
-          return 16;
-        },
-      });
+    example2.addEventListener('dCarousel:scroll', function() {
+      count++;
+      counter.textContent = count;
+    });
 
-      example2.addEventListener('jCarousel:scroll', function() {
-        count++;
-        counter.textContent = count;
-      });
-    </script>
+  }());
+          </code>
+        </pre>
+      </div>
+    </section>
+
+
+    <section class="example">
+      <div class="d-carousel d-carousel--example-3">
+        <div class="d-carousel__outer">
+          <div class="d-carousel__inner">
+            <div>
+              <ul class="d-carousel__ul">
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+                <li class="d-carousel__item"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <button class="d-carousel__prev disabled">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
+        <button class="d-carousel__next disabled">
+          <svg focusable="false" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+        </button>
+      </div>
+
+      <div class="wrapper">
+        <pre>
+          <code>
+(function() {
+  
+  var root = document.documentElement;
+  var getFontSize = function() {
+    return parseFloat(window.getComputedStyle(root).fontSize.replace('px', ''),10);
+  };
+  var fontSize = getFontSize();
+  
+  dCarousel(document.querySelector('.d-carousel--example-3'), {
+    delta: function() {
+      return fontSize; // will count carousel item as showing when within 1rem of viewport
+    },
+    duration: function(args) {
+      var diff = args.diff / (6.25 * fontSize);
+      return (diff * 0.1) * 1000; // will scroll for +0.1s for every 6.25rem that needs to be moved
+    },
+  });
+
+  window.addEventListener('resize', function() {
+    fontSize = getFontSize();
+  });
+
+}());
+          </code>
+        </pre>
+      </div>
+    </section>
+  
   </body>
 </html>

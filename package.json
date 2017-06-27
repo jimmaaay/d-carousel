@@ -1,17 +1,17 @@
 {
-  "name": "j-carousel",
+  "name": "d-carousel",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "browsersync": "browser-sync start --s --index 'index.html' --files 'index.html, dist/**/*.js', 'dist/**/*.css' --no-notify",
     "build": "npm run clean && rollup -c && npm run build:css",
-    "build:css": "npm run css:scss & npm run css:autoprefixer && npm run css:minify",
+    "build:css": "npm run css:scss & npm run css:autoprefixer && npm run css:minify && cpy dist/css demo/css",
     "watch": "npm run clean && (npm run watch:css & rollup -c -w & npm run browsersync)",
     "watch:css": "npm run build:css && onchange 'src/scss/*.scss' -- npm run build:css",
     "clean": "rimraf dist",
     "css:scss": "node-sass --output-style nested --indent-type space --indent-width 2 -o dist/css src/scss",
-    "css:minify": "uglifycss --output dist/css/main.css dist/css/main.css",
+    "css:minify": "uglifycss --output dist/css/d-carousel.css dist/css/d-carousel.css",
     "css:autoprefixer": "postcss --no-map -u autoprefixer --autoprefixer.browsers '&gt; 5%, ie 10' -r dist/css/*"
   },
   "devDependencies": {

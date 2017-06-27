@@ -6,9 +6,9 @@ import { minify } from 'uglify-js';
 
 export default {
   entry: 'src/js/main.js',
-	moduleName: 'jCarousel',
+	moduleName: 'dCarousel',
   format: 'umd',
-	banner: '/** @preserve j-carousel https://github.com/jimmaaay/j-carousel */',
+	banner: '/** @preserve d-carousel https://github.com/jimmaaay/d-carousel */',
   plugins: [
     resolve({
 			main: true,
@@ -30,6 +30,6 @@ export default {
 			}
 		}, minify),
   ],
-  dest: 'dist/js/main.min.js',
+  dest: 'dist/js/d-carousel.min.js',
 	sourceMap: true,
 };
