@@ -6,7 +6,7 @@
   "scripts": {
     "browsersync": "browser-sync start --s --index 'index.html' --files 'index.html, dist/**/*.js', 'dist/**/*.css' --no-notify",
     "build": "npm run clean && rollup -c && npm run build:css",
-    "build:css": "npm run css:scss & npm run css:autoprefixer && npm run css:minify && cpy dist/css demo/css",
+    "build:css": "npm run css:scss & npm run css:autoprefixer && npm run css:minify",
     "watch": "npm run clean && (npm run watch:css & rollup -c -w & npm run browsersync)",
     "watch:css": "npm run build:css && onchange 'src/scss/*.scss' -- npm run build:css",
     "clean": "rimraf dist",

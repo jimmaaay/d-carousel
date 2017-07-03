@@ -12,7 +12,8 @@
 
 
   &__outer {
-    overflow-x: auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     position: relative;
     white-space: nowrap;
@@ -96,5 +97,14 @@
     // transform: translateZ(0); // stops images from not showing unless browser repaints
   // }
 
+
+}
+
+
+@supports (color: #fff) {
+
+  .d-carousel__outer {
+    overflow-x: auto;
+  }
 
 }
