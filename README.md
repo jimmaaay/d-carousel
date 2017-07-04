@@ -1,6 +1,8 @@
 # d-carousel
 
-This is a carousel plugin based off of the `g-carousel` that is shown in google search results. I think this gives a better user experience when used on touch devices over more conventional carousels. Try the demo on your mobile/tablet and swipe to see what I mean.
+This is a carousel plugin based off of the `g-carousel` that is shown in google search results. 
+
+You are able to scroll the x-axis with mouse wheel (if you can scroll sideways with yours), by touch and with the buttons
 
 ![g-carousel example](https://github.com/jimmaaay/d-carousel/blob/master/img/g-carousel-example.jpg "g-carousel example")
 
@@ -39,11 +41,18 @@ The carousel will work fine without the javascript if you do not need the button
   </button>
 </div>
 ```
-3. Add the following javascript
+
+3. **Optional**  - Set the item widths. **Note all items MUST be the same width**
+```css
+.d-carousel__item {
+  width: 150px;
+}
+```
+
+4. Add the following javascript
 ```javascript
   dCarousel(document.querySelector('.d-carousel'));
 ```
-4. Done
 
 ### Build Tools
 The `dCarousel` script can also be used with build tools by doing the following
@@ -90,4 +99,25 @@ Arguments are available from `event.detail` in the callback;
 | Event Name | Args | Description |
 | ---------- | ---- | ----------- |
 | `dCarousel:scroll` | `scrollLeft` - The `scrollLeft` value of the outer element | This event is fired after the carousel has been scrolled and any nessecary calculations have taken place. |
+
+
+## Hide buttons on mobile/tablet
+A possible solution to this would be to add the below to the page. Although this is only a suggestion and hasn't been tested across browsers
+
+```html
+<script>
+if('orientation' in window && 'ontouchstart' in document.documentElement) document.documentElement.className += ' d-carousel-no-buttons';
+</script>
+<style>
+.d-carousel-no-buttons .d-carousel__prev
+.d-carousel-no-buttons .d-carousel__next {
+  display: none !important;
+}
+</style>
+```
+
+
+## Browser Support
+
+`d-carousel` will work on IE10+. However on browsers that do not support [`@supports`](https://developer.mozilla.org/en/docs/Web/CSS/@supports) css rule x-axis scrolling is disabled, so you will have to use the buttons on these browsers. This is due to wanting to disable x-axis scrolling in IE10 and IE11 in the CSS. 
 
