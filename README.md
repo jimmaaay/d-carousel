@@ -121,7 +121,7 @@ if('orientation' in window && 'ontouchstart' in document.documentElement) docume
 
 `d-carousel` will work on IE10+ with the polyfills below. However on browsers that do not support [`@supports`](https://developer.mozilla.org/en/docs/Web/CSS/@supports) css rule x-axis scrolling is disabled, so you will have to use the buttons on these browsers. This is due to wanting to disable x-axis scrolling in IE10 and IE11 in the CSS. 
 
-### Polyfills
+### Polyfills
 
 * [`Array.from`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from#Polyfill)
 * [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill)
