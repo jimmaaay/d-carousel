@@ -31,9 +31,17 @@ const windowResize = () => {
 
 let init = false;
 
+/** 
+ * Times dCarousel was used to initalise a carousel. Used inregards to 
+ * the window resize event listener. Which we only want one running at a time
+ */
+let timesInit = 0;
+
 
 
 export default function dCarousel(el, optionsArg) {
+
+  const eventHandlerOptions = supportsPassive ? { passive: true } : false;
 
   const options = Object.assign({}, defaultOptions, optionsArg);
   const $outer = el.querySelector(options.outerSelector);
@@ -155,18 +163,7 @@ export default function dCarousel(el, optionsArg) {
     outerScroll();
   };
 
-
-  windowResizeFns.push(windowResizeFunction);
-
-  if (init === false) {
-    init = true;
-    // only add event listener if dCarousel is called at least once
-    window.addEventListener('resize', windowResize, false);
-  }
-
-  $outer.addEventListener('scroll', outerScrollDebounced, supportsPassive ? { passive: true } : false);
-
-  $next.addEventListener('click', () => {
+  const nextClick = () => {
     if (animating === true) return;
     const start = 0 - paddingLeft;
     const lastIndexFullyShowing = getLastItemShowing();
@@ -177,9 +174,9 @@ export default function dCarousel(el, optionsArg) {
     const nextItem = lastIndexFullyShowing + 1;
     const x = Math.abs(start) + Math.min((nextItem * itemWidth) - itemWidth, innerWidth - containerWidth);
     scrollOuter(x);
-  });
+  };
 
-  $prev.addEventListener('click', () => {
+  const prevClick = () => {
     if (animating === true) return;
     const start = 0 - paddingLeft;
     const firstItemFullyShowing = getFirstItemShowing();
@@ -190,7 +187,37 @@ export default function dCarousel(el, optionsArg) {
     const prevItem = firstItemFullyShowing - 1;
     const x = Math.abs(start) + Math.max((prevItem * itemWidth) - containerWidth, start);
     scrollOuter(x);
-  });
+  };
+
+  const destroy = () => {
+    timesInit--;
+
+    // Removed window resize event listener
+    if (timesInit === 0) {
+      window.removeEventListener('resize', windowResize, false);
+    }
+
+    $outer.removeEventListener('scroll', outerScrollDebounced, eventHandlerOptions);
+    $next.removeEventListener('click', nextClick);
+    $prev.removeEventListener('click', prevClick);
+
+    el.classList.remove('init');
+  };
+
+
+  windowResizeFns.push(windowResizeFunction);
+
+  timesInit++;
+
+  if (init === false) {
+    init = true;
+    // only add event listener if dCarousel is called at least once
+    window.addEventListener('resize', windowResize, false);
+  }
+
+  $outer.addEventListener('scroll', outerScrollDebounced, eventHandlerOptions);
+  $next.addEventListener('click', nextClick);
+  $prev.addEventListener('click', prevClick);
 
   el.classList.add('init');
 
@@ -199,6 +226,7 @@ export default function dCarousel(el, optionsArg) {
 
 
   return {
+    destroy,
     getItemsShowing,
     forceRefresh: windowResizeFunction, // force the calculations to take place again
   };

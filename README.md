@@ -92,6 +92,7 @@ Methods are accessible from the returned object of the `dCarousel` function.
 | ------------ | ----------- |
 | getItemsShowing | Returns the indexes of elements that are showing, in an array |
 | forceRefresh | Will force refresh the carousel, so all calculations will be remade. This is called on window resize event anyway |
+| destroy | Removed event listeners and restores the carousel markup to how it was before it was initialised. |
 
 ## Events
 Arguments are available from `event.detail` in the callback;
