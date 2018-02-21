@@ -21,7 +21,7 @@ npm install d-carousel
 
 ### Quick Setup
 
-#### Add the stylesheet and javascript onto your page
+#### Add the javascript onto your page
 ```html
 <script src="dist/js/d-carousel.min.js"></script>
 ```

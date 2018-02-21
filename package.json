@@ -1,6 +1,6 @@
 {
   "name": "d-carousel",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/js/d-carousel.min.js",
   "license": "MIT",
   "scripts": {
