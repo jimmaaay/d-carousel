@@ -4,7 +4,7 @@ This is a carousel plugin based off of the `g-carousel` that is shown in google 
 
 You are able to scroll the x-axis with mouse wheel (if you can scroll sideways with yours), by touch and with the buttons
 
-![g-carousel example](https://github.com/jimmaaay/d-carousel/blob/master/img/g-carousel-example.jpg "g-carousel example")
+![g-carousel example](https://raw.githubusercontent.com/jimmaaay/d-carousel/master/img/g-carousel-example.jpg)
 
 The carousel will work fine without the javascript if you do not need the buttons
 
@@ -13,13 +13,26 @@ The carousel will work fine without the javascript if you do not need the button
 
 ## Setup
 
+### NPM
+
+```
+npm install d-carousel
+```
+
 ### Quick Setup
-1. Add the stylesheet and javascript onto your page
+
+#### Add the stylesheet and javascript onto your page
 ```html
-<link rel="stylesheet" type="text/css" href="dist/css/d-carousel.css"/>
 <script src="dist/js/d-carousel.min.js"></script>
 ```
-2. Add the required HTML for the carousel and replace  `${ITEM}` with whatever you want to populate the carousel with. **Note each `<li>` is a different item and each item MUST have the same width**
+
+#### Add the required CSS
+
+```css
+.d-carousel,.d-carousel *{-webkit-box-sizing:border-box;box-sizing:border-box}.d-carousel{position:relative;overflow-y:hidden}.d-carousel__outer{overflow-x:hidden;overflow-y:hidden;-webkit-overflow-scrolling:touch;position:relative;white-space:nowrap;margin-bottom:-1.5rem}.d-carousel__outer::-webkit-scrollbar{display:none}.d-carousel__inner{padding:1rem 0;display:inline-block}.d-carousel__ul{display:-webkit-box;display:-ms-flexbox;display:flex;margin:0 0 1.5rem;padding:0}.d-carousel__item{display:block;padding:0 .5rem}.d-carousel__next,.d-carousel__prev{position:absolute;top:50%;cursor:pointer;display:block;background:rgba(255,255,255,0.5);border:0;border-radius:50%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;width:2.5rem;height:2.5rem;z-index:2}.d-carousel__next svg,.d-carousel__prev svg{width:1.5rem;height:1.5rem}.d-carousel__next.disabled,.d-carousel__prev.disabled{opacity:0;pointer-events:none}.d-carousel__next{right:.5rem;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.d-carousel__prev{left:.5rem;-webkit-transform:translateY(-50%) rotate(-180deg);transform:translateY(-50%) rotate(-180deg)}.d-carousel.init .d-carousel__next,.d-carousel.init .d-carousel__prev{-webkit-transition:opacity .5s ease-in-out;transition:opacity .5s ease-in-out}@supports(color:#fff){.d-carousel__outer{overflow-x:auto}}
+```
+
+#### Add the required HTML for the carousel and replace  `${ITEM}` with whatever you want to populate the carousel with. **Note each `<li>` is a different item and each item MUST have the same width**
 ```html
 <div class="d-carousel">
   <div class="d-carousel__outer">
@@ -42,14 +55,14 @@ The carousel will work fine without the javascript if you do not need the button
 </div>
 ```
 
-3. **Optional**  - Set the item widths. **Note all items MUST be the same width**
+#### **Optional**  - Set the item widths. **Note all items MUST be the same width**
 ```css
 .d-carousel__item {
   width: 150px;
 }
 ```
 
-4. Add the following javascript
+#### Add the following javascript
 ```javascript
   dCarousel(document.querySelector('.d-carousel'));
 ```
@@ -57,7 +70,7 @@ The carousel will work fine without the javascript if you do not need the button
 ### Build Tools
 The `dCarousel` script can also be used with build tools by doing the following
 ```javascript
-import dCarousel from 'dist/js/d-carousel.min.js';
+import dCarousel from 'd-carousel';
 ```
 
 ## Options
