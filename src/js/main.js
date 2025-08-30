@@ -191,6 +191,16 @@ export default function dCarousel(el, optionsArg) {
     scrollOuter(x);
   };
 
+  const scrollToItem = index => {
+    if (index < 0 || index >= noItems) return;
+
+    const start = 0 - paddingLeft;
+    const targetScrollLeft = Math.abs(start) + index * itemWidth;
+    const clampedScrollLeft = Math.min(targetScrollLeft, maxScrollLeft);
+
+    scrollOuter(clampedScrollLeft);
+  };
+
   const destroy = () => {
     timesInit--;
 
@@ -228,6 +238,7 @@ export default function dCarousel(el, optionsArg) {
   return {
     destroy,
     getItemsShowing,
+    scrollToItem,
     forceRefresh: windowResizeFunction // force the calculations to take place again
   };
 }
